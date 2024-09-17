@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<!-- 
+  Visit https://hightechdistrict.com for more articles, videos, interactive practice tests and AI Assistant features.
+  @author https://hightechdistrict.com
+  -->
+ 
+    <style>
+        .mainform {
+            background-color: blue;
+            border: 1px solid black;
+            box-shadow: .25em .25em .5em .5em rgba(0, 0, 0, 0.3);
+            position: relative;
+            text-align: center;
+            width: 60%;
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 5px;
+            background-color: green;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #resultParagraph {
+            color: white;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function getPriceFromServer() {
+            // Create a new XMLHttpRequest object
+            let xhr = new XMLHttpRequest();
+
+             // Get the value from the input field
+             const carType = document.getElementById('carTypeInput').value.trim();
+
+            // Configure it: GET-request for the URL http://127.0.0.1 and port 5000
+            // Alternatively you could use reserved domain name: localhost instead of IP address: 127.0.0.1 
+            xhr.open('GET', 'http://127.0.0.1:5000/'+carType, true);
+
+            // Set up what happens when the request completes
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Get response
+                    let response = xhr.responseText;
+                    console.log(response);
+
+                    //display result
+                    document.getElementById('resultParagraph').textContent = response;
+                } else {
+                    document.getElementById('resultParagraph').textContent = 'Error: ' + xhr.status;
+                }
+            };
+
+            // Send the request
+            xhr.send();
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="mainform">
+        <h1> Get a Price of Car Type</h1>
+        <p> Please enter type of car in the input field below and click "Get Price" button to get a price.</p>
+        <form onsubmit="event.preventDefault(); getPriceFromServer();">
+            <input id="carTypeInput" required maxlength="20" />
+            <button type="submit">Get Price</button>
+        </form>
+        <p id="resultParagraph"></p>
+    </div>
+</body>
+
+</html>
